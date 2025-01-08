@@ -7,12 +7,15 @@ export default defineSchema({
     description: v.string(),
     location: v.string(),
     eventDate: v.number(),
+    eventStartTime: v.string(),
+    eventEndTime: v.string(),
     price: v.number(),
     totalTickets: v.number(),
     userId: v.string(),
     imageStorageId: v.optional(v.id("_storage")),
     is_cancelled: v.optional(v.boolean()),
   }),
+
   tickets: defineTable({
     eventId: v.id("events"),
     userId: v.string(),

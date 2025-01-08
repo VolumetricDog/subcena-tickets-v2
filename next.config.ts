@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "focused-sardine-135.convex.cloud",
+        hostname: "neat-mockingbird-759.convex.cloud",
         protocol: "https",
       },
       {

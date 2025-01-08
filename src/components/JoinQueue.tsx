@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "convex/react";
 import { Id } from "../../convex/_generated/dataModel";
 import { WAITING_LIST_STATUS } from "../../convex/constants";
 import Spinner from "./Spinner";
-import { Clock, OctagonXIcon } from "lucide-react";
+import { Clock, Flame, OctagonXIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ConvexError } from "convex/values";
 
@@ -103,9 +103,11 @@ export default function JoinQueue({
             <button
               onClick={handleJoinQueue}
               disabled={isPastEvent || isEventOwner}
-              className="w-full bg-gradient-to-r from-rose-800 to-orange-200 text-white px-6 py-3 rounded-lg font-medium hover:bg-rose-700 transition-colors duration-200 shadow-md flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-rose-800 to-orange-200 text-white px-6 py-3 rounded-lg font-semibold hover:bg-rose-700 transition-colors duration-200 shadow-md flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
-              Comprar Ticket
+              {event.price === 0
+                ? "evento gratuito"
+                : `R$ ${event.price.toFixed(2)}`}
             </button>
           )}
         </>

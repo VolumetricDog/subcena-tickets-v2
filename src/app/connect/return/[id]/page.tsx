@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Return() {
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 bg-opacity-0 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           {/* Success Header */}

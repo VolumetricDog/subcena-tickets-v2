@@ -37,6 +37,8 @@ const formSchema = z.object({
       new Date(new Date().setHours(0, 0, 0, 0)),
       "Evento precisa ser em alguma data no futuro"
     ),
+  eventStartTime: z.string().min(0, "horário precisa ser maior que 0"),
+  eventEndTime: z.string().min(0, "horário precisa ser maior que 0"),
   price: z.number().min(0, "Preço precisa ser maior que 0"),
   totalTickets: z.number().min(1, "O evento precisa ter pelo menos 1 ingresso"),
 });
@@ -49,6 +51,8 @@ interface InitialEventData {
   description: string;
   location: string;
   eventDate: number;
+  eventStartTime: string;
+  eventEndTime: string;
   price: number;
   totalTickets: number;
   imageStorageId?: Id<"_storage">;
@@ -85,6 +89,8 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
       description: initialData?.description ?? "",
       location: initialData?.location ?? "",
       eventDate: initialData ? new Date(initialData.eventDate) : new Date(),
+      eventStartTime: initialData?.eventStartTime ?? "",
+      eventEndTime: initialData?.eventStartTime ?? "",
       price: initialData?.price ?? 0,
       totalTickets: initialData?.totalTickets ?? 1,
     },
@@ -281,6 +287,44 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
                         ? new Date(field.value).toISOString().split("T")[0]
                         : ""
                     }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="eventStartTime"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Horário de início</FormLabel>
+                <FormControl>
+                  <Input
+                    type="time"
+                    {...field}
+                    onChange={(e) => field.onChange(e.target.value)}
+                    className="pl-10"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="eventEndTime"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Horário de fim</FormLabel>
+                <FormControl>
+                  <Input
+                    type="time"
+                    {...field}
+                    onChange={(e) => field.onChange(e.target.value)}
+                    className="pl-10"
                   />
                 </FormControl>
                 <FormMessage />

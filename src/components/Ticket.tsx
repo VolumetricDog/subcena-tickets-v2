@@ -80,9 +80,12 @@ export default function Ticket({ ticketId }: { ticketId: Id<"tickets"> }) {
                 className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-600" : "text-rose-600"}`}
               />
               <div>
-                <p className="text-sm text-rose-600">Data</p>
+                <p className="text-sm text-rose-600">Data e hora</p>
                 <p className="font-medium">
                   {new Date(ticket.event.eventDate).toLocaleDateString()}
+                  {ticket.event.eventStartTime === undefined
+                    ? ""
+                    : ` . ${ticket.event.eventStartTime} - ${ticket.event.eventEndTime}`}
                 </p>
               </div>
             </div>

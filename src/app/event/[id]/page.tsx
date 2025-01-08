@@ -3,7 +3,7 @@
 import { Id } from "../../../../convex/_generated/dataModel";
 import { api } from "../../../../convex/_generated/api";
 import { useQuery } from "convex/react";
-import { CalendarDays, MapPin, Ticket, Users } from "lucide-react";
+import { CalendarDays, Clock, MapPin, Ticket, Users } from "lucide-react";
 import { useParams } from "next/navigation";
 import Spinner from "@/components/Spinner";
 // import JoinQueue from "@/components/JoinQueue";
@@ -85,12 +85,14 @@ export default function EventPage() {
 
                   <div className="bg-black bg-opacity-50 p-4 rounded-lg">
                     <div className="flex items-center text-gray-200 mb-1">
-                      <Ticket className="w-5 h-5 mr-2 text-rose-900" />
+                      <Clock className="w-5 h-5 mr-2 text-rose-900" />
                       <span className="text-sm font-medium text-rose-900">
-                        Preço
+                        horário
                       </span>
                     </div>
-                    <p className="text-gray-200">R${event.price.toFixed(2)}</p>
+                    <p className="text-gray-200">
+                      {event.eventStartTime} - {event.eventEndTime}
+                    </p>
                   </div>
 
                   <div className="bg-black bg-opacity-50 p-4 rounded-lg">
@@ -132,7 +134,7 @@ export default function EventPage() {
                     />
                   ) : (
                     <SignInButton>
-                      <Button className="w-full bg-gradient-to-r from-rose-600 to-rose-800 hover:from-rose-700 hover:to-rose-900 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
+                      <Button className="w-full bg-gradient-to-r from-rose-600 to-rose-800 hover:from-rose-700 hover:to-rose-900 hover:scale-105 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
                         entre para comprar tickets
                       </Button>
                     </SignInButton>

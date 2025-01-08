@@ -1,6 +1,6 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { Check, CheckCircle2Icon, CheckCircleIcon } from "lucide-react";
 import React, { useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
@@ -23,9 +23,12 @@ const EventId: React.FC<EventIdProps> = ({ onEventIdChange }) => {
   return (
     <div className="max-w-3xl mx-auto text-center items-center">
       {isEventLocked ? (
-        <p className="text-green-600 text-xl font-bold">
-          Id de evento inserida com sucesso!
-        </p>
+        <div className="w-full flex flex-col items-center justify-center gap-2">
+          <CheckCircleIcon className="text-green-600 w-16 h-16 mb-2" />
+          <p className="text-green-600 text-md">
+            Id de evento inserida com sucesso!
+          </p>
+        </div>
       ) : (
         <>
           <h1 className="text-2xl text-white font-bold text-center mb-5">
