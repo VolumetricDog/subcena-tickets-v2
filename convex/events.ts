@@ -38,6 +38,18 @@ export const getById = query({
   },
 });
 
+export const getByPassword = query({
+  args: { password: v.string() }, // Expecting a password string as an argument
+  handler: async (ctx, { password }) => {
+    // Query the database for an event with the matching password
+    const events = await ctx.db
+      .query("events")
+      .filter((q) => q.eq(q.field("password"), password))
+      .first();
+    return events; // Return the matching event, or null if not found
+  },
+});
+
 export const create = mutation({
   args: {
     name: v.string(),
@@ -46,6 +58,7 @@ export const create = mutation({
     eventDate: v.number(), // Store as timestamp
     eventStartTime: v.string(),
     eventEndTime: v.string(),
+    password: v.string(),
     price: v.number(),
     totalTickets: v.number(),
     userId: v.string(),
@@ -58,6 +71,7 @@ export const create = mutation({
       eventDate: args.eventDate,
       eventStartTime: args.eventStartTime,
       eventEndTime: args.eventEndTime,
+      password: args.password,
       price: args.price,
       totalTickets: args.totalTickets,
       userId: args.userId,
@@ -547,6 +561,7 @@ export const updateEvent = mutation({
     eventDate: v.number(),
     eventStartTime: v.string(),
     eventEndTime: v.string(),
+    password: v.string(),
     price: v.number(),
     totalTickets: v.number(),
   },

@@ -5,43 +5,62 @@ import { useEffect, useState } from "react";
 
 function QrScanner({ onTicketIdChange }) {
   const [scanResult, setScanResult] = useState(null);
-  const [isEventLocked, setIsEventLocked] = useState(false); // State for lock status
+  const [isEventLocked, setIsEventLocked] = useState(false);
 
   useEffect(() => {
-    const scanner = new Html5QrcodeScanner("reader", {
+    const scannerId = "reader";
+
+    // Check if the scanner container already exists and clear it
+    const existingScanner = document.getElementById(scannerId);
+    if (existingScanner) {
+      existingScanner.innerHTML = "";
+    }
+
+    const scanner = new Html5QrcodeScanner(scannerId, {
       qrbox: {
-        width: 250,
-        height: 250,
+        width: 200,
+        height: 200,
       },
       fps: 5,
     });
 
-    scanner.render(onScanSuccess, onScanError);
+    scanner.render(
+      (result) => onScanSuccess(result),
+      (err) => onScanError(err) // Handle errors gracefully
+    );
 
     function onScanSuccess(result) {
       scanner.clear();
+      document.getElementById(scannerId).innerHTML = ""; // Clear DOM content
       setScanResult(result);
-      setIsEventLocked(true); // Save scanned QR code result
+      setIsEventLocked(true);
       if (onTicketIdChange) {
-        onTicketIdChange(result); // Notify parent with the scanned result
+        onTicketIdChange(result);
       }
     }
 
     function onScanError(err) {
-      console.warn(err);
+      // Ignore specific errors
+      if (err === "NotFoundException") {
+        return; // Ignore this error silently
+      }
+      console.warn("Scanner Error:", err); // Log other errors if needed
     }
 
+    // Cleanup on unmount
     return () => {
-      scanner.clear(); // Clean up the scanner when the component unmounts
+      scanner.clear();
+      const scannerContainer = document.getElementById(scannerId);
+      if (scannerContainer) {
+        scannerContainer.innerHTML = "";
+      }
     };
   }, [onTicketIdChange]);
 
   return (
     <div className="max-w-3xl text-white mx-auto text-center items-center">
       {isEventLocked ? (
-        <p className="text-green-600 text-xl font-bold">
-          Ticket encontrado com sucesso!
-        </p>
+        <p className="text-green-600 text-md">QR code escaneado</p>
       ) : (
         <>
           <h1 className="text-2xl font-bold text-center mb-5">Scan ticket</h1>
@@ -55,7 +74,7 @@ function QrScanner({ onTicketIdChange }) {
           ) : (
             <div
               id="reader"
-              className="bg-white border-0 outline-none shadow-lg overflow-hidden items-center p-8"
+              className="border-0 outline-none shadow-lg overflow-hidden items-center p-8"
             ></div>
           )}
         </>

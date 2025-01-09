@@ -65,7 +65,7 @@ export default function SellerDashboard() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="max-w-3xl w-full mx-auto p-6">
       <div className="bg-gray-900 bg-opacity-40 rounded-lg shadow-lg overflow-hidden">
         {/* Header Section */}
         <div className="bg-gradient-to-r from-rose-800 to-orange-200 px-6 py-8 text-white">
@@ -98,13 +98,6 @@ export default function SellerDashboard() {
                 >
                   <CalendarDays className="w-5 h-5" />
                   Ver meus Eventos
-                </Link>
-                <Link
-                  href="/seller/validate-ticket"
-                  className="flex items-center w-full justify-center gap-2 bg-gray-700 bg-opacity-40 px-4 py-2 rounded-lg shadow-sm text-white hover:scale-105 transition duration-500"
-                >
-                  <TicketCheck className="w-5 h-5" />
-                  Validar Tickets
                 </Link>
               </div>
             </div>

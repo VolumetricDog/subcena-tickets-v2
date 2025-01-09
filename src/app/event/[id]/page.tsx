@@ -3,7 +3,7 @@
 import { Id } from "../../../../convex/_generated/dataModel";
 import { api } from "../../../../convex/_generated/api";
 import { useQuery } from "convex/react";
-import { CalendarDays, Clock, MapPin, Ticket, Users } from "lucide-react";
+import { CalendarDays, Clock, Key, MapPin, Ticket, Users } from "lucide-react";
 import { useParams } from "next/navigation";
 import Spinner from "@/components/Spinner";
 // import JoinQueue from "@/components/JoinQueue";

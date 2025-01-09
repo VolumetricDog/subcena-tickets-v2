@@ -81,11 +81,11 @@ function SellerEventCard({
               <div
                 className="flex gap-2 justify-center p-3 w-full bg-gray-700 bg-opacity-40 px-4 py-2 rounded-lg shadow-sm text-gray-400 hover:scale-105 transition duration-500"
                 onClick={() => {
-                  const code = event._id; // Replace with the event code
+                  const code = event.password; // Replace with the event code
                   navigator.clipboard
                     .writeText(code)
                     .then(() => {
-                      alert("Código copiado para a área de transferência!");
+                      alert("Senha de validação copiada!");
                     })
                     .catch((err) => {
                       console.error("Erro ao copiar código: ", err);

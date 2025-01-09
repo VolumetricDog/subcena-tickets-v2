@@ -18,7 +18,7 @@ import { useUser } from "@clerk/nextjs";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useRouter } from "next/navigation";
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import Image from "next/image";
 import { Id } from "../../convex/_generated/dataModel";
 import { Loader2 } from "lucide-react";
@@ -39,11 +39,23 @@ const formSchema = z.object({
     ),
   eventStartTime: z.string().min(0, "horário precisa ser maior que 0"),
   eventEndTime: z.string().min(0, "horário precisa ser maior que 0"),
+  password: z.string().min(1, "Senha de validação é obrigatória"),
   price: z.number().min(0, "Preço precisa ser maior que 0"),
   totalTickets: z.number().min(1, "O evento precisa ter pelo menos 1 ingresso"),
 });
 
 type FormData = z.infer<typeof formSchema>;
+
+// Gera uma senha aleatória de 10 caracteres
+const generateRandomPassword = (length: number) => {
+  const charset =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    password += charset.charAt(Math.floor(Math.random() * charset.length));
+  }
+  return password;
+};
 
 interface InitialEventData {
   _id: Id<"events">;
@@ -53,6 +65,7 @@ interface InitialEventData {
   eventDate: number;
   eventStartTime: string;
   eventEndTime: string;
+  password: string;
   price: number;
   totalTickets: number;
   imageStorageId?: Id<"_storage">;
@@ -65,6 +78,18 @@ interface EventFormProps {
 
 export default function EventForm({ mode, initialData }: EventFormProps) {
   const { user } = useUser();
+
+  const [randomPassword, setRandomPassword] = useState("");
+
+  useEffect(() => {
+    // Gera a senha ao montar o componente
+    if (mode === "create") {
+      setRandomPassword(generateRandomPassword(10));
+    } else if (initialData) {
+      setRandomPassword(initialData.password); // Usa a senha existente no modo de edição
+    }
+  }, [mode, initialData]);
+
   const createEvent = useMutation(api.events.create);
   const updateEvent = useMutation(api.events.updateEvent);
   const router = useRouter();
@@ -90,13 +115,15 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
       location: initialData?.location ?? "",
       eventDate: initialData ? new Date(initialData.eventDate) : new Date(),
       eventStartTime: initialData?.eventStartTime ?? "",
-      eventEndTime: initialData?.eventStartTime ?? "",
+      eventEndTime: initialData?.eventEndTime ?? "",
       price: initialData?.price ?? 0,
+      password: generateRandomPassword(10), // Preenche o campo de senha automaticamente
       totalTickets: initialData?.totalTickets ?? 1,
     },
   });
 
   async function onSubmit(values: FormData) {
+    values.password = randomPassword;
     if (!user?.id) return;
 
     startTransition(async () => {
@@ -374,6 +401,23 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
             )}
           />
 
+          <FormField
+            control={form.control}
+            name="password"
+            render={() => (
+              <FormItem>
+                <FormLabel>Senha para validação</FormLabel>
+                <FormControl>
+                  <Input
+                    value={randomPassword}
+                    readOnly
+                    className="bg-gray-200 bg-opacity-30"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           {/* Image Upload */}
           <div className="space-y-4">
             <label className="block text-sm font-medium text-gray-300">
