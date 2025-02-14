@@ -131,14 +131,6 @@ export const joinWaitingList = mutation({
   args: { eventId: v.id("events"), userId: v.string() },
   handler: async (ctx, { eventId, userId }) => {
     // Rate limit check
-    // const status = await rateLimiter.limit(ctx, "queueJoin", { key: userId });
-    // if (!status.ok) {
-    //   throw new ConvexError(
-    //     `You've joined the waiting list too many times. Please wait ${Math.ceil(
-    //       status.retryAfter / (60 * 1000)
-    //     )} minutes before trying again.`
-    //   );
-    // }
 
     // First check if user already has an active entry in waiting list for this event
     // Active means any status except EXPIRED
@@ -198,8 +190,8 @@ export const joinWaitingList = mutation({
         ? WAITING_LIST_STATUS.OFFERED // If available, status is offered
         : WAITING_LIST_STATUS.WAITING, // If not available, status is waiting
       message: available
-        ? "Ticket oferecido - você tem 30 minutos para completar a compra"
-        : "Adicionado na lista de espera - você será notificado quando houver um ticket disponível",
+        ? "Ticket offered - you have 15 minutes to purchase"
+        : "Added to waiting list - you'll be notified when a ticket becomes available",
     };
   },
 });
