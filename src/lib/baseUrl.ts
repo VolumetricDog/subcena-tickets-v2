@@ -1,6 +1,3 @@
-const baseUrl =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : "https://subcena.com";
+const baseUrl = `${process.env.CLIENT_URL}`;
 
 export default baseUrl;
